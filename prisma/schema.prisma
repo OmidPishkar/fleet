@@ -8,8 +8,53 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  email       String @unique
-  password    String
-  username String
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  email               String   @unique
+  password            String
+  username            String
+  favoritesProperties String[]
+  comments Comments[]
+}
+
+model Properties {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl      String
+  title         String
+  pricePerNight String
+  discound      String
+  location      String
+  bedRooms      String
+  livingRoom    String
+  bathroom      String
+  description   String
+  amenities     String[]
+  features      String[]
+  currency      String
+  checkin       String
+  checkout      String
+  guest         String
+  notAvailable  Boolean  @default(true)
+  comments      Comments[]
+  rates String[]
+}
+
+model Comments {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  likes String[]
+  message String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author User @relation(fields: [authorId] , references: [id])
+  authorId String @db.ObjectId
+
+  property Properties @relation(fields: [propertyId], references: [id])
+  propertyId String @db.ObjectId
+
+
+  parent Comments? @relation("ParentChild" ,fields: [parentId] , references: [id] , onDelete: NoAction, onUpdate: NoAction)
+  parentId String? @db.ObjectId
+
+  children Comments[] @relation("ParentChild")
+
 }
