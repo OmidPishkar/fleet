@@ -54,7 +54,6 @@ model Comments {
 
   parent Comments? @relation("ParentChild" ,fields: [parentId] , references: [id] , onDelete: NoAction, onUpdate: NoAction)
   parentId String? @db.ObjectId
-
   children Comments[] @relation("ParentChild")
 
 }
