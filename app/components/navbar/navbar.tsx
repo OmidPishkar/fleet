@@ -12,13 +12,13 @@ import { useRouter , usePathname } from 'next/navigation';
 const Navbar = () => {
     const [contentMenu , setContentMenu] = useState(false);
     const {activeContent , setActiveContent} = useLandingContent();
-    const {activeModal , setActiveModal} = useActiveModal();
+    const {setActiveModal} = useActiveModal();
     const session = useSession();
     const router = useRouter();
     const pathname = usePathname();
 
     const userPropertiesHandler = () => {
-        if(session.status === "authenticated"){
+        if(session.status !== "unauthenticated"){
             router.push("/properties")
         }
         setActiveModal("login")
